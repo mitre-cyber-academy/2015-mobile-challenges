@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Login Page</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+		<link rel="stylesheet" href="css/custom.css" media="screen" title="no title" charset="utf-8">
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	</head>
+
+	<body>
+		<div class="page-header">
+			<button class="btn btn-primary" onClick="switchAndroidActivity('logout')">Log Out</button>
+		  <h1 class="text-center">Search Playlists</h1>
+		</div>
+		<div class="container">
+			<div class="row">
+				<button class="btn btn-primary" onClick="switchAndroidActivity('playlist')">Go Back</button><br/>
+        <form class="form-inline text-center" name="searchusers">
+          <div class="form-group">
+            <label for="username">Enter Username</label>
+            <input type="text" class="form-control" id="username" placeholder="Username">
+          </div>
+          <button type="submit" class="btn btn-primary" onClick="switchAndroidActivity('other-playlist')"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+        </form><br/>
+        <h3 class="text-center">OR</h3>
+  			<button class="btn btn-primary center-block" onClick="createCookie('other_un', document.searchusers.username.value, 10);switchAndroidActivity('other-users')" >List All Usernames</button>
+			</div>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		function switchAndroidActivity(activity){
+			Android.switchActivity(activity);
+		}
+		function createCookie(name,value,days) {
+			if (days) {
+				var date = new Date();
+				date.setTime(date.getTime()+(days*24*60*60*1000));
+				var expires = "; expires="+date.toGMTString();
+			}
+			else var expires = "";
+			document.cookie = name+"="+value+expires+"; path=/";
+		}
+	</script>
+
+
+</html>

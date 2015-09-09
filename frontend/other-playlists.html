@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Login Page</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+		<link rel="stylesheet" href="css/custom.css" media="screen" title="no title" charset="utf-8">
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+			function switchAndroidActivity(activity){
+			Android.switchActivity(activity);
+			}
+			function readCookie(name) {
+				var nameEQ = name + "=";
+				var ca = document.cookie.split(';');
+				for(var i=0;i < ca.length;i++) {
+					var c = ca[i];
+					while (c.charAt(0)==' ') c = c.substring(1,c.length);
+					if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+				}
+				return null;
+			}
+			function setUN(){
+				document.getElementById('username').textContent='testinks';
+				var un = readCookie('other_un');
+				if (un){
+					document.getElementById('username').textContent='gettingthere';
+				}
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="page-header">
+			<button class="btn btn-primary" onClick="switchAndroidActivity('logout')">Log Out</button>
+		  <h1 class="text-center"><span id="username">Username</span>'s Playlist</h1>
+		  <script type="text/javascript">setUN();</script>
+		</div>
+		<div class="container">
+			<div class="row">
+				<button class="btn btn-primary" onClick="switchAndroidActivity('search-users')">Go Back</button>
+			</div>
+			<div class="row">
+				<div class="table-responsive col-12">
+				  <table class="playlist table">
+						<thead>
+							<tr>
+						    <th></th>
+						    <th>Song</th>
+						    <th>Artist</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+						    <th>1</th>
+						    <td>One</td>
+						    <td>Fish</td>
+							</tr>
+							<tr>
+						    <th>2</th>
+						    <td>Two</td>
+						    <td>Fish</td>
+							</tr>
+							<tr>
+						    <th>3</th>
+						    <td>Red</td>
+						    <td>Fish</td>
+							</tr>
+							<tr>
+						    <th>4</th>
+						    <td>Blue</td>
+						    <td>Fish</td>
+							</tr>
+						</tbody>
+				  </table>
+				</div>
+			</div>
+
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		function switchAndroidActivity(activity){
+			Android.switchActivity(activity);
+		}
+	</script>
+
+
+</html>

@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#1 = team number
+#2 = passcode
+#3 = order
+#4 = flag
+
+#adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n org.mitre.ctf.sherlocked.team1/org.mitre.ctf.sherlocked.MainActivity
+
+#Correct one
+#adb shell am broadcast -a org.mitre.ctf.sherlocked.INTENT --es passcode "RUBY" --es order "0123"
+adb shell am broadcast -a org.mitre.ctf.shelocked.INTENT --es passcode "$2" --es order "$3"
+
+adb shell screencap -p /sdcard/sherlock_team$1.png
+adb pull /sdcard/sherlock_team$1.png
+adb shell rm /sdcard/sherlock_team$1.png
+
+secret=$4
+length=${#secret}
+
+tesseract sherlock_team$1.png team$1_sherlock_out.txt
+search=grep -e "$secret" team$1_sherlock_out.txt
+if [[ "$search" == *"$secret"* ]]; then
+    echo "MATCH!"
+else
+    echo "FAIL!"
+fi

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SherLocked</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="top_title">I AM</string>
+    <string name="bottom_title">LOCKED</string>
+</resources>

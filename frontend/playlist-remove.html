@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Login Page</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+		<link rel="stylesheet" href="css/custom.css" media="screen" title="no title" charset="utf-8">
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+			function switchAndroidActivity(activity){
+			Android.switchActivity(activity);
+			}
+			function showAndroidLog(text){
+			Android.showLog(text);
+			}
+			function capitalizeFirstLetter(string) {
+			return string.charAt(0).toUpperCase() + string.slice(1);
+			}
+			function readCookie(name) {
+				var nameEQ = name + "=";
+				var ca = document.cookie.split(';');
+				for(var i=0;i < ca.length;i++) {
+					var c = ca[i];
+					while (c.charAt(0)==' ') c = c.substring(1,c.length);
+					if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+				}
+				return null;
+			}
+			function setUN(){
+				var un = readCookie('current_un');
+				if (un){
+					document.getElementById('username').textContent=capitalizeFirstLetter(un);
+				}
+			}
+			function AJAXupdate(){
+				var http = new XMLHttpRequest();
+				http.open("POST","update-playlist",true);
+				http.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+
+				showAndroidLog('updating...');
+				http.onreadystatechange = function() {
+					if (http.readyState == 4 && http.status == 200) {
+						var playlistobj = JSON.parse(http.responseText);
+						fillPlaylist(playlistobj);
+					}
+				}
+ 				http.send();
+			}
+			function AJAXremove(sid){
+				showAndroidLog(sid);
+				var http = new XMLHttpRequest();
+				showAndroidLog(sid);
+				http.open("POST","playlist-remove?sid="+sid,true);
+ 				http.send();
+ 				location.reload();
+ 			}
+			function fillPlaylist(playlistobj){
+				for(i=0; i < playlistobj.playlist.length; i++){
+					var row = document.getElementById('pl').insertRow(i+1);
+					var th = document.createElement('th');
+
+					var cell1 = row.appendChild(th);
+					var cell2 = row.insertCell(1);
+					var cell3 = row.insertCell(2);
+					var cell4 = row.insertCell(3);
+
+					cell1.innerHTML = (i+1).toString();
+					cell2.innerHTML = playlistobj.playlist[i].song;
+					cell3.innerHTML = playlistobj.playlist[i].artist;
+					cell4.innerHTML = "<button type=\"button\" class=\"btn btn-danger btn-xs\" onClick=\"AJAXremove('"+playlistobj.playlist[i].sid.toString()+"');\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></button>";
+				}
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="page-header">
+			<button class="btn btn-primary" onClick="switchAndroidActivity('logout')">Log Out</button>
+		  <h1 class="text-center"><span id="username">Username</span>'s Playlist</h1>
+		  <script type="text/javascript">setUN();</script>
+		  <script type="text/javascript">AJAXupdate();</script>
+		</div>
+		<div class="container">
+			<div class="row">
+				<button class="btn btn-primary" onClick="switchAndroidActivity('playlist')">Go Back</button>
+			</div>
+			<div class="row">
+				<div class="table-responsive col-12">
+				  <table class="playlist table" id="pl">
+						<thead>
+							<tr>
+						    <th></th>
+						    <th>Song</th>
+						    <th>Artist</th>
+								<th>Remove <span class="glyphicon glyphicon-remove" aria-hidden="true"></th>
+							</tr>
+						</thead>
+						<tbody id="tb">
+
+						</tbody>
+				  </table>
+				</div>
+			</div>
+
+		</div>
+
+	<script type="text/javascript">
+		function switchAndroidActivity(activity){
+			Android.switchActivity(activity);
+		}
+	</script>
+
+
+</html>
+
+	</body>

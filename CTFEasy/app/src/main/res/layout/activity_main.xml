@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="#000000"
+    tools:context=".MainActivity">
+
+    <Button android:id="@+id/color_check"
+        android:text="@string/color_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:typeface="monospace"/>
+
+    <TextView android:id="@+id/topcolor_text"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:text="@string/topcolor_text"
+        android:typeface="monospace"/>
+
+    <TextView android:id="@+id/bottomcolor_text"
+        android:layout_below="@+id/color_check"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bottomcolor_text"
+        android:typeface="monospace"/>
+
+    <EditText android:id="@+id/color_code_entry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bottomcolor_text"
+        android:textCursorDrawable="@null"
+        android:textColor="#ffffff"
+        android:hint="Enter new background string"
+        android:visibility="gone"
+        android:typeface="monospace"/>
+
+    <Button android:id="@+id/change_symbol_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bottomcolor_text"
+        android:text="Go!"
+        android:layout_toRightOf="@+id/color_code_entry"
+        android:visibility="gone"
+        android:typeface="monospace"/>
+
+    <Button android:id="@+id/change_symbol"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bottomcolor_text"
+        android:text="Change pattern text/character"
+        android:typeface="monospace"/>
+
+
+</RelativeLayout>

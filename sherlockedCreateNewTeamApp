@@ -1,0 +1,75 @@
+#!/bin/bash
+
+#DEMO
+
+#TODO's
+#@change app name so each team has respective app name on device
+
+#Inputs
+#1 = team number/name
+#2 = round number
+#3 = url
+#4 = port 
+
+cd SherLocked/app
+sed_string="s/org.mitre.ctf.sherlocked/org.mitre.ctf.sherlocked.team$1/g"
+mv build.gradle build.gradle.old
+sed $sed_string build.gradle.old > build.gradle
+rm -r build.gradle.old
+
+#debug
+cat build.gradle
+
+#copy in URL/PORT
+cd src/main/java/org/mitre/ctf/sherlocked
+sed_string="s/10.0.2.2:5000/$3:$4/g"
+sed $sed_string MainActivity.java_tpl > MainActivity.java
+#don't remove the tpl that way can be used for next team
+#move use back to the SherLocked/app dir
+cd ../../../../../../../
+
+#
+#build app - options: assemble, assembleDebug, assembleRelease
+# Create Unsigned APK app/build/outputs/apk/app-release-unsigned.apk
+cd ..
+./gradlew assembleRelease 
+#DEBUG
+#adb install app/build/outputs/apk/app-debug.apk
+#
+#reset the gradle for next run
+cd app
+sed_string="s/org.mitre.ctf.sherlocked.team$1/org.mitre.ctf.sherlocked/g"
+mv build.gradle build.gradle.old
+sed $sed_string build.gradle.old > build.gradle
+rm -r build.gradle.old
+cd ..
+
+#cd back to FinalCtfMobile - to copy port into sherlocked_backend.py
+cd ..
+sed_string="s/5000/$4/g"
+sed $sed_string sherlocked_backend.py_tpl > sherlocked_backend.py
+cd SherLocked
+
+#TODO
+#Create key, sign unsigned apk, align, copy apk and install
+#Do we want to install the apk's to the emulators then let them download? 
+
+cd app
+#create key
+yes | keytool -genkey -v -keystore $1-$2-keystore.keystore -alias team$1 -keyalg RSA -keysize 2048 -validity 10000 -keypass password -storepass password
+
+#sign APK with key
+mv build/outputs/apk/app-release-unsigned.apk ./team$1SherLocked-signed.apk
+
+echo password | jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $1-$2-keystore.keystore ./team$1SherLocked-signed.apk team$1
+
+#align
+zipalign -v 4 ./team$1SherLocked-signed.apk ./team$1SherLocked.apk
+
+#copy apk to main player package
+cp ./team$1SherLocked.apk ../team$1SherLocked.apk
+cd ..
+#adb install ./team$1SherLocked.apk
+
+
+

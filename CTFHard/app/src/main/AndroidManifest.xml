@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mitre.vtomic.ctfhard" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ErrorActivity"
+            android:label="@string/title_activity_error" >
+        </activity>
+        <activity
+            android:name=".PlaylistActivity"
+            android:label="@string/title_activity_playlist" >
+        </activity>
+        <activity
+            android:name=".PlaylistAddActivity"
+            android:label="@string/title_activity_add" >
+        </activity>
+        <activity
+            android:name=".PlaylistRemoveActivity"
+            android:label="@string/title_activity_add" >
+        </activity>
+        <activity
+            android:name=".SearchOtherActivity"
+            android:label="@string/title_activity_search_other" >
+        </activity>
+        <activity
+            android:name=".OtherUsersActivity"
+            android:label="@string/title_activity_other_users" >
+        </activity>
+        <activity
+            android:name=".OtherPlaylistActivity"
+            android:label="@string/title_activity_other_playlist" >
+        </activity>
+    </application>
+
+</manifest>

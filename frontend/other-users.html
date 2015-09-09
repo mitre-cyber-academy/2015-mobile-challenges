@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Login Page</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+		<link rel="stylesheet" href="css/custom.css" media="screen" title="no title" charset="utf-8">
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	</head>
+
+	<body>
+		<div class="page-header">
+			<button class="btn btn-primary" onClick="switchAndroidActivity('logout')">Log Out</button>
+		  <h1 class="text-center"><span id="username">Username's</span> Playlist</h1>
+		</div>
+		<div class="container">
+			<div class="row">
+				<button class="btn btn-primary" onClick="switchAndroidActivity('search-users')">Go Back</button>
+			</div>
+			<div class="row">
+				<ul class="user-group list-group">
+				  <li class="list-group-item"><a href="Link To User">User1</a></li>
+				  <li class="list-group-item"><a href="Link To User">User2</a></li>
+				  <li class="list-group-item"><a href="Link To User">User3</a></li>
+				  <li class="list-group-item"><a href="Link To User">User4</a></li>
+				  <li class="list-group-item"><a href="Link To User">User5</a></li>
+				</ul>
+			</div>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		function switchAndroidActivity(activity){
+			Android.switchActivity(activity);
+		}
+	</script>
+
+
+</html>
