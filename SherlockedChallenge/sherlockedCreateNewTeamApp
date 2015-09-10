@@ -71,6 +71,8 @@ zipalign -v 4 ./team$1Round$2SherLocked-signed.apk ./team$1Round$2SherLocked.apk
 
 #copy apk to challenge dir
 cp ./team$1Round$2SherLocked.apk ../team$1Round$2SherLocked.apk
+rm team$1Round$2SherLocked-signed.apk
+rm team$1Round$2SherLocked.apk
 cd ..
 #adb install ./team$1SherLocked.apk
 

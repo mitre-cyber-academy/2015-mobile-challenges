@@ -1,0 +1,59 @@
+#!/bin/bash
+
+#PlaylistShare
+
+#TODO's
+#@change app name so each team has respective app name on device
+
+#Inputs
+#1 = team number/name
+#2 = round number
+#--NOT NEEDED url and port
+#3 = url
+#4 = port 
+
+cd android/app
+sed_string="s/com.mitre.playlistshare/com.mitre.playlistshare.team$1round$2/g"
+mv build.gradle build.gradle.old
+sed $sed_string build.gradle.old > build.gradle
+rm -r build.gradle.old
+
+#debug
+cat build.gradle
+
+#
+#build app - options: assemble, assembleDebug, assembleRelease
+# Create Unsigned APK app/build/outputs/apk/app-release-unsigned.apk
+cd ..
+./gradlew assembleRelease 
+#DEBUG
+#adb install app/build/outputs/apk/app-debug.apk
+#
+#reset the gradle for next run
+cd app
+sed_string="s/com.mitre.playlistshare.team$1round$2/com.mitre.playlistshare/g"
+mv build.gradle build.gradle.old
+sed $sed_string build.gradle.old > build.gradle
+rm -r build.gradle.old
+
+#cd app
+#create key for team$-round$
+yes | keytool -genkey -v -keystore team$1-round$2-keystore.keystore -alias team$1Round$2 -keyalg RSA -keysize 2048 -validity 10000 -keypass password -storepass password
+
+#sign APK with key
+mv build/outputs/apk/app-release-unsigned.apk ./team$1Round$2PlaylistShare-signed.apk
+
+echo password | jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore team$1-round$2-keystore.keystore ./team$1Round$2PlaylistShare-signed.apk team$1Round$2
+
+#align
+zipalign -v 4 ./team$1Round$2PlaylistShare-signed.apk ./team$1Round$2PlaylistShare.apk
+
+#copy apk to challenge dir
+cp ./team$1Round$2PlaylistShare.apk ../team$1Round$2PlaylistShare.apk
+rm team$1Round$2PlaylistShare-signed.apk
+rm team$1Round$2PlaylistShare.apk
+cd ..
+#adb install ./team$1SherLocked.apk
+
+
+
