@@ -1,12 +1,16 @@
-package com.mitre.vtomic.ctfeasy;
+package com.mitre.ctfeasy;
 
 
 
+import android.util.Log;
+
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
 import java.io.IOException;
 
+import java.io.InputStreamReader;
 import java.net.URL;
 
 import java.net.URLConnection;
@@ -15,7 +19,7 @@ import java.net.URLEncoder;
 
 
 public class ServerInterface {
-    public static final String SERVER_URL = "http://10.0.2.2:4567/";
+    public static String SERVER_URL = "";
 
     public static String sendMsg(String message){
         String data = message;
@@ -26,6 +30,7 @@ public class ServerInterface {
         String result = "";
         try {
             URL url = new URL(SERVER_URL+data);
+            //URL url = new URL(data);
             URLConnection connection = url.openConnection();
 
             connection.setDoInput(true);

@@ -27,8 +27,11 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateEncodingException;
@@ -45,6 +48,8 @@ public class MainActivity extends Activity implements AsyncResponse {
     private static String masterOrder = "0123";
     private String passcodeOrder = "";
     private static Type type = null;
+    private static String ipPort = "";
+    private static String url = "";
 
     private final String TAG = "SHERLOCKED";
 
@@ -53,19 +58,23 @@ public class MainActivity extends Activity implements AsyncResponse {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        //TODO REQUIRED FOR GRADER DON'T CHANGE
+        loadServerInfo();
+        url = "http://"+ipPort;
+
         //Retrieve Master passcode/order
         Log.d(TAG, "retrieving passcode...");
         type = Type.PASSCODE;
-        String url = "http://10.0.2.2:5000/passcode"; //5000 default
+        String loc_url = url+"/passcode";
         String requestType = "GET";
-        (new CheckPasscode(this, null, null, url, requestType)).execute();
+        (new CheckPasscode(this, null, null, loc_url, requestType)).execute();
 
-        /*
+
         Intent intent = new Intent(this, Background.class);
         intent.putExtra("passcode", masterPasscode);
         intent.putExtra("order", masterOrder);
         this.startService(intent);
-        */
+
 
         Log.d(TAG, masterPasscode);
         Log.d(TAG, masterOrder);
@@ -217,9 +226,9 @@ public class MainActivity extends Activity implements AsyncResponse {
                 editor.apply();
                 //get order
                 type = Type.ORDER;
-                String url = "http://10.0.2.2:5000/order";
+                String loc_url = url+"/order";
                 String requestType = "GET";
-                (new CheckPasscode(this, null, null, url, requestType)).execute();
+                (new CheckPasscode(this, null, null, loc_url, requestType)).execute();
             } else if (type == Type.ORDER) {
                 masterOrder = output;
                 SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
@@ -287,13 +296,13 @@ public class MainActivity extends Activity implements AsyncResponse {
         Log.d(TAG, "Expected " + masterOrder + ", got " + passcodeOrder);
         //Retrieve Master passcode/order
         type = Type.FLAG;
-        String url = "http://10.0.2.2:5000/challenge";
+        String loc_url = url+"/challenge";
         String requestType = "POST";
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i<passcode.length; i++) {
             sb.append(passcode[i]);
         }
-        (new CheckPasscode(this, sb.toString(), passcodeOrder, url, requestType)).execute();
+        (new CheckPasscode(this, sb.toString(), passcodeOrder, loc_url, requestType)).execute();
 
         //Reset the fields
         resetPasscode();
@@ -388,7 +397,30 @@ public class MainActivity extends Activity implements AsyncResponse {
         return str.toString();
     }
 
-    //TODO DO NOT REMOVE THIS CODE FOR GRADER
+    //TODO USED BY GRADER AND TO CONNECT TO SERVER, DO NOT ALTER FUNCTION
+    public void loadServerInfo() {
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(
+                    new InputStreamReader(getAssets().open("server.txt")));
+
+            // do reading - should only need first line
+            ipPort  = reader.readLine();
+        } catch (IOException e) {
+            //log the exception
+            Log.e(TAG, "Error Loading server info...");
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    //log the exception
+                    Log.e(TAG, "Error closing reader...");
+                }
+            }
+        }
+    }
+
     private static String BROADCAST_ACTION = "org.mitre.ctf.sherlocked.INTENT";
     @Override
     protected void onResume() {
@@ -409,12 +441,12 @@ public class MainActivity extends Activity implements AsyncResponse {
             //Toast.makeText(getApplicationContext(), "received", Toast.LENGTH_SHORT);
             Log.d(TAG, "SHERLOCK INTENT RECEIVED");
             type = Type.FLAG;
-            String url = "http://10.0.2.2:5000/challenge";
+            String loc_url = url+"/challenge";
             String requestType = "POST";
             String loc_passcode = intent.getStringExtra("passcode");
             String loc_order = intent.getStringExtra("order");
             Log.d(TAG, "LOCAL PASSCODE AND ORDER" + loc_passcode + " " + loc_order);
-            (new CheckPasscode(MainActivity.this, loc_passcode, loc_order, url, requestType)).execute();
+            (new CheckPasscode(MainActivity.this, loc_passcode, loc_order, loc_url, requestType)).execute();
         }
     };
 }

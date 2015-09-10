@@ -1,15 +1,24 @@
-package com.mitre.vtomic.ctfeasy;
+package com.mitre.ctfeasy;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.content.Context;
 import android.widget.EditText;
@@ -27,9 +36,10 @@ import java.util.Random;
 import java.lang.Math;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
 
     private MainActivity main_activity = null;
+    private static final String TAG = "COLORCLICKAPP";
     Button color_check, change_bkg, change_bkg_submit;
     TextView topcolor_text, bottomcolor_text;
     EditText enter_colors;
@@ -140,6 +150,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         main_activity= this;
         setContentView(R.layout.activity_main);
+
+        //TODO USED BY GRADER AND TO ACCESS SERVER DO NOT ALTER
+        loadServerInfo();
+
         color_check = (Button) findViewById(R.id.color_check);
         change_bkg = (Button) findViewById((R.id.change_symbol));
         change_bkg_submit = (Button) findViewById((R.id.change_symbol_submit));
@@ -261,6 +275,66 @@ public class MainActivity extends Activity {
         return dir.delete();
     }
 
+    //TODO DO NOT REMOVE NEED THIS FOR GRADER AND INTEGRITY CHECK
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.option_color_submit) {
+            Context mContext = getApplicationContext();
+            AlertDialog.Builder builder = new AlertDialog.Builder(main_activity);
+            // Get the layout inflater
+            LayoutInflater layoutInflater = main_activity.getLayoutInflater();
+            final View inflator = layoutInflater.inflate(R.layout.dialog_layout, null);
+            builder.setView(inflator);
+
+            final EditText colorSubmitField = (EditText) inflator.findViewById(R.id.color_code);
+
+            builder.setPositiveButton(R.string.color_code_submit, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    String colorCode = colorSubmitField.getText().toString();
+                    (new SendTask()).execute("colorserve/" + colorCode);
+                    filecolor = colorCode;
+                }
+            });
+            /*TODO OLD
+            LayoutInflater inflater = main_activity.getLayoutInflater();
+            builder.setView(inflater.inflate(R.layout.dialog_layout, null));
+
+            // Get items in listener and set action
+            final EditText colorSubmitField = (EditText) inflater.findViewById(R.id.color_code);
+            Button colorSubmitBtn = (Button) findViewById(R.id.submit_color_code);
+            colorSubmitBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String colorCode = colorSubmitField.getText().toString();
+                    (new SendTask()).execute("colorserve/" + colorCode);
+                }
+            });
+            */
+            /*
+            builder.setView(inflater.inflate(R.layout.dialog_layout, null))
+                    // Add action buttons
+                    .setPositiveButton(R.string.color_code_submit, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            // sign in the user ...
+                        }
+                    });
+                    */
+            builder.show();
+        }
+
+        return super.onContextItemSelected(item);
+
+    }
+
     @SuppressWarnings("unchecked")
 
     private class SendTask extends AsyncTask {
@@ -312,4 +386,31 @@ public class MainActivity extends Activity {
                 }
             }
         }
+
+    //TODO USED BY GRADER AND TO CONNECT TO SERVER, DO NOT ALTER FUNCTION
+    public void loadServerInfo() {
+        BufferedReader reader = null;
+        String ipPort = "";
+        try {
+            reader = new BufferedReader(
+                    new InputStreamReader(getAssets().open("server.txt")));
+
+            // do reading - should only need first line
+            ipPort  = reader.readLine();
+            ServerInterface.SERVER_URL = "http://"+ipPort+"/";
+            Log.d(TAG, "SERVER URL: " + ServerInterface.SERVER_URL);
+        } catch (IOException e) {
+            //log the exception
+            Log.e(TAG, "Error Loading server info...");
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    //log the exception
+                    Log.e(TAG, "Error closing reader...");
+                }
+            }
+        }
+    }
 }
