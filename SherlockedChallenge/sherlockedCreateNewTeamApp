@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#DEMO
+#SherLocked
 
 #TODO's
 #@change app name so each team has respective app name on device
@@ -8,11 +8,12 @@
 #Inputs
 #1 = team number/name
 #2 = round number
+#--NOT NEEDED url and port
 #3 = url
 #4 = port 
 
-cd SherLocked/app
-sed_string="s/org.mitre.ctf.sherlocked/org.mitre.ctf.sherlocked.team$1/g"
+cd android/app
+sed_string="s/org.mitre.ctf.sherlocked/org.mitre.ctf.sherlocked.team$1round$2/g"
 mv build.gradle build.gradle.old
 sed $sed_string build.gradle.old > build.gradle
 rm -r build.gradle.old
@@ -20,13 +21,14 @@ rm -r build.gradle.old
 #debug
 cat build.gradle
 
-#copy in URL/PORT
-cd src/main/java/org/mitre/ctf/sherlocked
-sed_string="s/10.0.2.2:5000/$3:$4/g"
-sed $sed_string MainActivity.java_tpl > MainActivity.java
+#copy in URL/PORT - NOT NEEDED ANYMORE, uses assets files server.txt
+#cd src/main/java/org/mitre/ctf/sherlocked
+#sed_string="s/10.0.2.2:5000/$3:$4/g"
+#sed $sed_string MainActivity.java_tpl > MainActivity.java
+
 #don't remove the tpl that way can be used for next team
 #move use back to the SherLocked/app dir
-cd ../../../../../../../
+#cd ../../../../../../../
 
 #
 #build app - options: assemble, assembleDebug, assembleRelease
@@ -38,36 +40,37 @@ cd ..
 #
 #reset the gradle for next run
 cd app
-sed_string="s/org.mitre.ctf.sherlocked.team$1/org.mitre.ctf.sherlocked/g"
+sed_string="s/org.mitre.ctf.sherlocked.team$1round$2/org.mitre.ctf.sherlocked/g"
 mv build.gradle build.gradle.old
 sed $sed_string build.gradle.old > build.gradle
 rm -r build.gradle.old
-cd ..
+#cd ..
 
-#cd back to FinalCtfMobile - to copy port into sherlocked_backend.py
-cd ..
-sed_string="s/5000/$4/g"
-sed $sed_string sherlocked_backend.py_tpl > sherlocked_backend.py
-cd SherLocked
+#NOT NEEDED ANYMORE
+#cd back to Challenge Dir - to copy port into sherlocked_backend.py
+#cd ..
+#sed_string="s/5000/$4/g"
+#sed $sed_string sherlocked_backend.py_tpl > sherlocked_backend.py
+#cd SherLocked
 
 #TODO
 #Create key, sign unsigned apk, align, copy apk and install
 #Do we want to install the apk's to the emulators then let them download? 
 
-cd app
-#create key
-yes | keytool -genkey -v -keystore $1-$2-keystore.keystore -alias team$1 -keyalg RSA -keysize 2048 -validity 10000 -keypass password -storepass password
+#cd app
+#create key for team$-round$
+yes | keytool -genkey -v -keystore team$1-round$2-keystore.keystore -alias team$1Round$2 -keyalg RSA -keysize 2048 -validity 10000 -keypass password -storepass password
 
 #sign APK with key
-mv build/outputs/apk/app-release-unsigned.apk ./team$1SherLocked-signed.apk
+mv build/outputs/apk/app-release-unsigned.apk ./team$1Round$2SherLocked-signed.apk
 
-echo password | jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $1-$2-keystore.keystore ./team$1SherLocked-signed.apk team$1
+echo password | jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore team$1-round$2-keystore.keystore ./team$1Round$2SherLocked-signed.apk team$1Round$2
 
 #align
-zipalign -v 4 ./team$1SherLocked-signed.apk ./team$1SherLocked.apk
+zipalign -v 4 ./team$1Round$2SherLocked-signed.apk ./team$1Round$2SherLocked.apk
 
-#copy apk to main player package
-cp ./team$1SherLocked.apk ../team$1SherLocked.apk
+#copy apk to challenge dir
+cp ./team$1Round$2SherLocked.apk ../team$1Round$2SherLocked.apk
 cd ..
 #adb install ./team$1SherLocked.apk
 
