@@ -1,0 +1,74 @@
+#!/bin/bash
+
+#echo CHECKING INTEGRITY SHERLOCKED...
+if [ ! -d android/app ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/gradle ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/build.gradle ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/gradlew ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/AndroidManifest.xml ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/assets ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/java ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/res ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/res/values ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/res/values/strings.xml ] ; then
+	echo FALSE
+	exit
+#SHERLOCKED SPECIFIC
+elif [ ! -d android/app/src/main/java/org ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/java/org/mitre ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/java/org/mitre/ctf ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/java/org/mitre/ctf/sherlocked ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/java/org/mitre/ctf/sherlocked/AsyncResponse.java ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/java/org/mitre/ctf/sherlocked/Background.java ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/java/org/mitre/ctf/sherlocked/CheckPasscode.java ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/java/org/mitre/ctf/sherlocked/MainActivity.java ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/res/layout ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/res/layout/main.xml ] ; then
+	echo FALSE
+	exit
+else 
+	echo TRUE
+fi
+exit

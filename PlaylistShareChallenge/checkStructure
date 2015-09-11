@@ -1,0 +1,113 @@
+#!/bin/bash
+
+#echo CHECKING INTEGRITY PLAYLISTSHARE...
+if [ ! -d android/app ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/gradle ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/build.gradle ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/gradlew ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/AndroidManifest.xml ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/assets ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/java ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/res ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/res/values ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/res/values/strings.xml ] ; then
+	echo FALSE
+	exit
+#PLAYLIST SPECIFIC
+elif [ ! -d android/app/src/main/res/layout ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/res/layout/activity_add.xml ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/res/layout/activity_error.xml ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/res/layout/activity_login.xml ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/res/layout/activity_main.xml ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/res/layout/activity_other_playlist.xml ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/res/layout/activity_other_users.xml ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/res/layout/activity_playlist.xml ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/res/layout/activity_remove.xml ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/res/layout/activity_search_other.xml ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/java/com ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/java/com/mitre ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/java/com/mitre/playlistshare ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/java/com/mitre/playlistshare/ErrorActivity.java ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/java/com/mitre/playlistshare/MainActivity.java ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/java/com/mitre/playlistshare/OtherPlaylistActivity.java ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/java/com/mitre/playlistshare/OtherUsersActivity.java ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/java/com/mitre/playlistshare/PlaylistActivity.java ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/java/com/mitre/playlistshare/PlaylistAddActivity.java ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/java/com/mitre/playlistshare/PlaylistRemoveActivity.java ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/java/com/mitre/playlistshare/SearchOtherActivity.java ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/java/com/mitre/playlistshare/ServerInterface.java ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/java/com/mitre/playlistshare/WebAppInterface.java ] ; then
+	echo FALSE
+	exit
+else 
+	echo TRUE
+fi
+exit

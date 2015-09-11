@@ -1,0 +1,68 @@
+#!/bin/bash
+
+#echo CHECKING INTEGRITY SHERLOCKED...
+if [ ! -d android/app ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/gradle ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/build.gradle ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/gradlew ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/AndroidManifest.xml ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/assets ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/java ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/res ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/res/values ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/res/values/strings.xml ] ; then
+	echo FALSE
+	exit
+#FLASHING COLORS SPECIFIC
+elif [ ! -d android/app/src/main/res/layout ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/res/layout/activity_main.xml ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/res/layout/dialog_layout.xml ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/java/com ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/java/com/mitre ] ; then
+	echo FALSE
+	exit
+elif [ ! -d android/app/src/main/java/com/mitre/flashingcolors ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/java/com/mitre/flashingcolors/ServerInterface.java ] ; then
+	echo FALSE
+	exit
+elif [ ! -f android/app/src/main/java/com/mitre/flashingcolors/MainActivity.java ] ; then
+	echo FALSE
+	exit
+else 
+	echo TRUE
+fi
+exit
