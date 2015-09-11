@@ -5,12 +5,13 @@ require 'pg'
 require 'digest/sha1'
 require_relative 'populate_userpls'
 
+opts = ENV['opts'] && eval("Hash#{ENV['opts'].split(',').to_s}") || {}
 flag = ENV['flag'] && ENV['flag'].dup || Digest::SHA1.hexdigest('secretflag')
 # to be used with signature, will ignore if not set.
-signature = ENV['signature'] && ENV['signature'].dup || false
-dbname = ENV['dbname'] && ENV['dbname'].dup || 'ctfharddb'
-dbuser = ENV['dbuser'] && ENV['dbuser'].dup || 'testuser'
-dbpass = ENV['dbpass'] && ENV['dbpass'].dup || 'masthead'
+signature = opts[:signature] || false
+dbname = opts[:dbname] || 'ctfharddb'
+dbuser = opts[:dbuser] || 'testuser'
+dbpass = opts[:dbpass] || 'masthead'
 
 
 set :server, 'thin'
