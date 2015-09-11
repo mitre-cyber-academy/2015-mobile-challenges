@@ -24,7 +24,7 @@ cat build.gradle
 #Set Up Server Text file
 echo SETTING server.txt ...
 if [ -f src/main/assets/server.txt ] ; then
-rm server.txt
+rm src/main/assets/server.txt
 fi
 port=3000
 let "port += $1"
