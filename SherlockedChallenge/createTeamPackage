@@ -28,7 +28,7 @@ rm src/main/assets/server.txt
 fi
 port=3000
 let "port += $1"
-echo 192.168.108.161:$port >> src/main/assets/server.txt
+echo 10.0.1.26:$port >> src/main/assets/server.txt
 
 #
 #build app - options: assemble, assembleDebug, assembleRelease
