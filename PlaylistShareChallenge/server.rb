@@ -12,6 +12,7 @@ signature = opts[:signature] || false
 dbname = opts[:dbname] || 'ctfharddb'
 dbuser = opts[:dbuser] || 'testuser'
 dbpass = opts[:dbpass] || 'masthead'
+adminpass = opts[:adminpass] || 'password'
 
 
 set :server, 'thin'
@@ -36,8 +37,8 @@ configure do
 		begin
 			psql.exec_params("SELECT * FROM users WHERE username='admin'").getvalue(0,0)
 		rescue ArgumentError
-			adminpass = Digest::SHA1.hexdigest(rand(999999).to_s)[0,6]
-			flag = Digest::SHA1.hexdigest('teamnumbersflag')
+			#adminpass = Digest::SHA1.hexdigest(rand(999999).to_s)[0,6]
+			#flag = Digest::SHA1.hexdigest('teamnumbersflag')
 			psql.exec_params("INSERT INTO users VALUES ('admin', $1)", [adminpass])
 			psql.exec_params("INSERT INTO playlists VALUES (1, $1, 'flag')", [flag])
 			psql.close();

@@ -10,8 +10,8 @@ signature = opts[:signature] || false
 
 get '/colorserve/:colorcode' do
 	if params['colorcode'] == 'roygongerd'
-		return '#' + flag
+		return flag
 	else
-		return '#' + Digest::SHA1.hexdigest(params['colorcode'])
+		return Digest::SHA1.hexdigest(params['colorcode'])
 	end
 end
