@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SherLocked
-
+source ~/.bash_profile
 #TODO's
 #@change app name so each team has respective app name on device
 
@@ -21,14 +21,14 @@ rm -r build.gradle.old
 #debug
 cat build.gradle
 
-#copy in URL/PORT - NOT NEEDED ANYMORE, uses assets files server.txt
-#cd src/main/java/org/mitre/ctf/sherlocked
-#sed_string="s/10.0.2.2:5000/$3:$4/g"
-#sed $sed_string MainActivity.java_tpl > MainActivity.java
-
-#don't remove the tpl that way can be used for next team
-#move use back to the SherLocked/app dir
-#cd ../../../../../../../
+#Set Up Server Text file
+echo SETTING server.txt ...
+if [ -f src/main/assets/server.txt ] ; then
+rm server.txt
+fi
+port=3000
+let "port += $1"
+echo 192.168.108.161:$port >> src/main/assets/server.txt
 
 #
 #build app - options: assemble, assembleDebug, assembleRelease
